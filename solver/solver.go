@@ -7,8 +7,10 @@ type Solver struct {
 }
 
 func New(dimensions uint8) Solver {
-	if dimensions <= 3 || dimensions > 13 {
-		panic(fmt.Sprintf("Dimensions must be in [3..10[; Is: %d", dimensions))
+	var min, max uint8 = 4, 13
+
+	if dimensions < min || dimensions > max {
+		panic(fmt.Sprintf("Dimensions must be in [%d..%d]; is: %d", min, max, dimensions))
 	}
 
 	return Solver{Dimensions: dimensions}
