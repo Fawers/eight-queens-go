@@ -4,7 +4,6 @@ import "fmt"
 
 type Solver struct {
 	Dimensions uint8
-	solutions  uint
 }
 
 func New(dimensions uint8) Solver {
@@ -12,18 +11,18 @@ func New(dimensions uint8) Solver {
 		panic(fmt.Sprintf("Dimensions must be in [3..10[; Is: %d", dimensions))
 	}
 
-	return Solver{Dimensions: dimensions, solutions: 0}
+	return Solver{Dimensions: dimensions}
 }
 
 func (s *Solver) Solve() uint {
-	s.solutions = 0
-	s.solveForRow(0, make([]Position, s.Dimensions))
-	return s.solutions
+	var solutions uint = 0
+	s.solveForRow(0, make([]Position, s.Dimensions), &solutions)
+	return solutions
 }
 
-func (s *Solver) solveForRow(row uint8, ps []Position) {
+func (s *Solver) solveForRow(row uint8, ps []Position, solutions *uint) {
 	if row == s.Dimensions {
-		s.solutions += 1
+		*solutions += 1
 		return
 	}
 
@@ -39,7 +38,7 @@ func (s *Solver) solveForRow(row uint8, ps []Position) {
 
 		if !overlaps {
 			ps[row] = pos
-			s.solveForRow(row+1, ps)
+			s.solveForRow(row+1, ps, solutions)
 		}
 	}
 }
